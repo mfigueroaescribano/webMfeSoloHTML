@@ -1,0 +1,220 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>webMfe – Documentation</title>
+    <link>/docs/</link>
+    <description>Recent content in Documentation on webMfe</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    
+	  <atom:link href="/docs/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Demo Page</title>
+      <link>/docs/first-page/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/first-page/</guid>
+      <description>
+        
+        
+        &lt;p&gt;A simple demo page.&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Herramientas de comprobación de contraseñas</title>
+      <link>/docs/sad/pi1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/sad/pi1/</guid>
+      <description>
+        
+        
+        &lt;h2&gt;&lt;em&gt;John the Ripper&lt;/em&gt;&lt;span class=&#34;absolute -mt-20&#34; id=&#34;john-the-ripper&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#john-the-ripper&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;h3&gt;Rúbrica&lt;span class=&#34;absolute -mt-20&#34; id=&#34;rúbrica&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#r%c3%babrica&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;Instalación&lt;/li&gt;
+&lt;li&gt;Opciones de ataques de diccionario&lt;/li&gt;
+&lt;li&gt;Opciones de ataques de fuerza bruta&lt;/li&gt;
+&lt;li&gt;Generación de diccionarios siguiendo reglas&lt;/li&gt;
+&lt;li&gt;Comprobación en local y en remoto&lt;/li&gt;
+&lt;li&gt;Crackeo cuenta Linux&lt;/li&gt;
+&lt;li&gt;Crackeo cuenta Windows&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Introducción&lt;span class=&#34;absolute -mt-20&#34; id=&#34;introducción&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#introducci%c3%b3n&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;En este apartado de comprobación de fortaleza de contraseñas usaremos &lt;em&gt;John the Ripper.&lt;/em&gt; Esta es una herramiento de crackeo de contraseñas escrita en C y muy utilizada por los analistas de seguridad para comprobar la robustez de una clave frente a ataques de fuerza bruta o por diccionario.&lt;/p&gt;
+&lt;p&gt;Esta herramienta es capaz de detectar de forma automática el tipo de hash que estamos crackeando. Puede romper hashes como MD5, SHA-1 y otros muchos ampliamente utilizados en el mundo informático&lt;/p&gt;
+&lt;h3&gt;Instalación de la herramienta&lt;span class=&#34;absolute -mt-20&#34; id=&#34;instalación-de-la-herramienta&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#instalaci%c3%b3n-de-la-herramienta&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Con la ejecución del comando &lt;code&gt;apt install john&lt;/code&gt; instalamos la herramienta. Una vez instalada, podemos realizar una prueba de rendimiento del hardware sobre el que correremos esta herramienta con el comando &lt;code&gt;john --test&lt;/code&gt;. De esta manera, podremos saber la velocidad con la que la herramienta probará claves con diferentes tipos de cifrado utilizando el 100% de la CPU.&lt;/p&gt;
+&lt;p&gt;Sobre un contenedor en Proxmox con Debian12 nos arroja los siguientes resultados:&lt;/p&gt;
+&lt;p&gt;
+    &lt;img src=&#34;../images/200.png&#34; alt=&#34;john &amp;ndash;test&#34; loading=&#34;lazy&#34; /&gt;&lt;/p&gt;
+&lt;h3&gt;Opciones de ataque por diccionario&lt;span class=&#34;absolute -mt-20&#34; id=&#34;opciones-de-ataque-por-diccionario&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#opciones-de-ataque-por-diccionario&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;h4&gt;Uso en Linux&lt;span class=&#34;absolute -mt-20&#34; id=&#34;uso-en-linux&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#uso-en-linux&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h4&gt;&lt;blockquote&gt;
+&lt;p&gt;Por problemas de dependencias con la instalación de &amp;ldquo;John the Ripper&amp;rdquo; en el contenedor de debian12, instalamos una MV con Kali Linux donde haremos estas pruebas y donde se incluye ya la herramienta completamente funcional.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Para probar los ataques por diccionario lo haremos con el fichero &lt;code&gt;/etc/shadow&lt;/code&gt;, que es el que contiene la contraseñas cifradas en los sistemas Linux.&lt;/p&gt;
+&lt;p&gt;A continuación deberemos tener o crear un diccionario de claves. Estos diccionarios se pueden obtener de Internet, pero para esta prueba crearemos uno sencillo con algunas claves típicas y entra la que inlcuiremos &lt;em&gt;iesgn&lt;/em&gt;, que es la clave del usuario &lt;em&gt;miguel&lt;/em&gt; de Kali.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Podemos encontrar wordlists en el propio repositorio de John the Ripper, clasificados por lenguajes, en el siguiente enlace: &lt;a href=&#34;https://download.openwall.net/pub/wordlists/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://download.openwall.net/pub/wordlists/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;En el fichero &lt;code&gt;/usr/share/john/password.lst&lt;/code&gt; se almacenan todas las palabras que usará por defecto la herramienta para intentar descifrar la contraseña.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Este es el contenido del fichero &lt;code&gt;diccpassword.txt&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;code-block relative mt-6 first:mt-0 group/code&#34;&gt;&lt;pre&gt;&lt;code id=&#34;code-block-0&#34;&gt;test
+contrasena
+1234
+password
+iesgn&lt;/code&gt;&lt;/pre&gt;&lt;div class=&#34;opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0&#34;&gt;
+    &lt;button
+      class=&#34;code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50&#34;
+      title=&#34;Copy code&#34;
+      data-clipboard-target=&#34;#code-block-0&#34;
+    &gt;
+      &lt;div class=&#34;group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4&#34;&gt;&lt;/div&gt;
+      &lt;div class=&#34;hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4&#34;&gt;&lt;/div&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;A continuación, ejecutaremos John the Ripper para cracker la contraseña del fichero &lt;code&gt;/etc/shadow&lt;/code&gt; tomando como diccionario el fichero &lt;code&gt;diccpassword.txt&lt;/code&gt;. Lo hacemos con el comando &lt;code&gt;john --wordlist=diccpassword.txt --format=crypt /etc/shadow&lt;/code&gt;. Con el parámetro &lt;code&gt;--format&lt;/code&gt; indicamos el formato del hash. Indicamos &lt;code&gt;crypt&lt;/code&gt; si lo desconocemos.&lt;/p&gt;
+&lt;p&gt;
+    &lt;img src=&#34;../images/2001.png&#34; alt=&#34;John con /etc/shadow por ataque de diccionarios&#34; loading=&#34;lazy&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Como vemos en la captura anterior, la clave del usuario &lt;em&gt;miguel&lt;/em&gt; era &lt;em&gt;iesgn&lt;/em&gt;, y ha tardado prácticamente ni 1 segundo, ya que el diccionario de claves solo tenía 5 líneas y entre ellas estaba la correcta.&lt;/p&gt;
+&lt;p&gt;Las contraseñas que vayamos descifrando se almacenarán en el directorio oculto &lt;code&gt;./john&lt;/code&gt;, en el fichero &lt;code&gt;john.pot&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;De esta forma hemos crackeado una cuenta en Linux. Tan sólo nos ha bastado con tener acceso al fichero &lt;code&gt;/etc/shadow&lt;/code&gt; por un momento.&lt;/p&gt;
+&lt;h4&gt;Uso en Windows&lt;span class=&#34;absolute -mt-20&#34; id=&#34;uso-en-windows&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#uso-en-windows&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h4&gt;&lt;p&gt;Ahora pasaremos al sistema Windows, para crackear una cuenta de usuario. Crearemos un par de cuentas, con los siguientes nombres de usuario y contraseñas:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;&lt;strong&gt;Usuario&lt;/strong&gt;&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;&lt;strong&gt;Contraseña&lt;/strong&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;alex&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;password&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;fran&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;admin123&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Creamos la cuenta con el comando &lt;code&gt;net user [nombre] /add&lt;/code&gt;, y le ponemos contraseña con &lt;code&gt;net user [nombre] *&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Una vez creados, descargaremos la herramienta John the Ripper para Windows desde la página oficial: &lt;a href=&#34;https://www.openwall.com/john/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://www.openwall.com/john/&lt;/a&gt;, la versión &lt;em&gt;jumbo release&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Además, deberemos descargar también la herramienta pwdump8, desde el siguiente enlace &lt;a href=&#34;https://www.openwall.com/passwords/windows-pwdump&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://www.openwall.com/passwords/windows-pwdump&lt;/a&gt;, que nos permitirá generar un archivo de texto con el estilo &lt;code&gt;usuario:contraseñacifrada&lt;/code&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Antes de descargar este archivo deberemos desactivar Windows Defender, ya que nos lo notificará como peligroso para el sistema.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Ejecutamos la herramienta pwdump8 y redirijimos su salida al fichero &lt;code&gt;usuarioshash.txt&lt;/code&gt;. Observamos el archivo que se ha generado:&lt;/p&gt;
+&lt;p&gt;
+    &lt;img src=&#34;../images/2002.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Ahora pasaremos ese fichero generado por John the Ripper. El comando es similar a Linux. Nos da esta respuesta:&lt;/p&gt;
+&lt;p&gt;
+    &lt;img src=&#34;../images/2003.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Ha descifrado correctamente las contraseñas de &lt;em&gt;alex&lt;/em&gt; y &lt;em&gt;fran&lt;/em&gt;, que realmente son los únicos usuarios que tienen contraseña ya que no le hemos configurado contraseña al usuario &lt;em&gt;miguel&lt;/em&gt;. Este proceso ha usado las wordlist por defecto que hemos descargado con la herramienta.&lt;/p&gt;
+&lt;h3&gt;Opciones de ataque por fuerza bruta&lt;span class=&#34;absolute -mt-20&#34; id=&#34;opciones-de-ataque-por-fuerza-bruta&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#opciones-de-ataque-por-fuerza-bruta&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Un ataque de contraseñas por fuerza bruta es un método utilizado para intentar descubrir una contraseña al probar todas las posibles combinaciones de caracteres hasta encontrar la correcta. En esencia, este tipo de ataque implica probar repetidamente todas las combinaciones posibles de contraseñas hasta que se encuentre la que permite el acceso a una cuenta o sistema. Los atacantes utilizan software automatizado para generar y probar estas combinaciones a gran velocidad.&lt;/p&gt;
+&lt;p&gt;Los ataques de fuerza bruta son un enfoque ineficiente y generalmente lento, ya que la cantidad de combinaciones posibles puede ser extremadamente grande, especialmente si la contraseña es larga y compleja. Sin embargo, pueden ser efectivos si la contraseña es débil, es decir, corta o predecible.&lt;/p&gt;
+&lt;p&gt;Para probar este tipo de ataques, crearemos dos nuevos usuarios en nuestra máquina con Kali. En ella crearemos los usuarios &lt;em&gt;alex&lt;/em&gt; y &lt;em&gt;fran&lt;/em&gt;, con las mismas contraseñas que se especificaron anteriormente.&lt;/p&gt;
+&lt;p&gt;Con el comando &lt;code&gt;unshadow /etc/passwd /etc/shadow &amp;gt; combinado.txt&lt;/code&gt; combinamos los contenidos de ambos archivos, y este será el archivo que luego pasaremos por John.&lt;/p&gt;
+&lt;p&gt;Pasamos el archivo por John para que comience el ataque por fuerza bruta:&lt;/p&gt;
+&lt;p&gt;
+    &lt;img src=&#34;../images/2004.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;En primer lugar vemos como la contraseña del usuario &lt;em&gt;alex&lt;/em&gt; la ha descifrado utilizando el método de ataque por diccionario. Pero ahora está intentando descifrar el resto de contraseñas por fuerza bruta. Vemos como la máquina está empleando toda la potencia disponible de procesamiento en sucesivos intentos de cracker las claves:&lt;/p&gt;
+&lt;p&gt;
+    &lt;img src=&#34;../images/2005.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Obviamente estábamos forzando con la segunda contraseña a probar todas las combinaciones posibles, sin ninguna ayuda por lo que se demorará bastante en conseguir un resultado, algo que no sería viable.&lt;/p&gt;
+&lt;p&gt;Como hemos visto y comprobado, para prevenir de los ataques de contraseñas por fuerza bruta debemos configurar contraseñas largas, con letras, números y símbolos cuando sea posible, así como habilitar la autentificación de doble factor cuando sea posible.&lt;/p&gt;
+&lt;h3&gt;Generación de diccionarios para fuerza bruta&lt;span class=&#34;absolute -mt-20&#34; id=&#34;generación-de-diccionarios-para-fuerza-bruta&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#generaci%c3%b3n-de-diccionarios-para-fuerza-bruta&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;&lt;a href=&#34;https://thehackerway.com/2021/01/20/generacion-de-diccionarios-para-fuerza-bruta-con-pydictor/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://thehackerway.com/2021/01/20/generacion-de-diccionarios-para-fuerza-bruta-con-pydictor/&lt;/a&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Prueba - introducción a la implantación de aplicaciones web</title>
+      <link>/docs/prueba/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/prueba/</guid>
+      <description>
+        
+        
+        &lt;h3&gt;Hola! 👋&lt;span class=&#34;absolute -mt-20&#34; id=&#34;hola-&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#hola-&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Miguel Figueroa Escribano&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://www.estadiodeportivo.com/imagenes/94f621f5-3601-471d-afc7-108c2b940dd5_1200x680.jpeg&#34; alt=&#34;Fernando Alonso&#34; loading=&#34;lazy&#34; /&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Taller 1 - Instalación de la aplicación Biblioteca</title>
+      <link>/docs/iweb/unidad-2-php/taller1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/iweb/unidad-2-php/taller1/</guid>
+      <description>
+        
+        
+        &lt;p&gt;Creamos la base de datos, y un usuario para este taller, con nombre taller1php ambos. Rellenamos la base de datos con el fichero biblioteca.sql clonado desde Git, usando el siguiente comando:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;mysql -u taller1php -p taller1.php &amp;lt; biblioteca.sql&lt;/code&gt;&lt;/p&gt;
+&lt;h2&gt;Configuración del VirtualHost&lt;span class=&#34;absolute -mt-20&#34; id=&#34;configuración-del-virtualhost&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#configuraci%c3%b3n-del-virtualhost&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;div class=&#34;code-block relative mt-6 first:mt-0 group/code&#34;&gt;&lt;pre&gt;&lt;code id=&#34;code-block-0&#34;&gt;&amp;lt;VirtualHost *:80&amp;gt;
+        ServerName www.biblio.debian12-virtual-mfe.org
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/biblio
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+&amp;lt;/VirtualHost&amp;gt;&lt;/code&gt;&lt;/pre&gt;&lt;div class=&#34;opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0&#34;&gt;
+    &lt;button
+      class=&#34;code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50&#34;
+      title=&#34;Copy code&#34;
+      data-clipboard-target=&#34;#code-block-0&#34;
+    &gt;
+      &lt;div class=&#34;group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4&#34;&gt;&lt;/div&gt;
+      &lt;div class=&#34;hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4&#34;&gt;&lt;/div&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;h2&gt;Fichero &lt;code&gt;Config.php&lt;/code&gt;&lt;span class=&#34;absolute -mt-20&#34; id=&#34;fichero-configphp&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#fichero-configphp&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;div class=&#34;code-block relative mt-6 first:mt-0 group/code&#34;&gt;&lt;pre&gt;&lt;code id=&#34;code-block-1&#34;&gt;&amp;lt;?php
+const base_url = &amp;#34;http://www.biblio.debian12-virtual-mfe.org/&amp;#34;;
+const host = &amp;#34;localhost&amp;#34;;
+const user = &amp;#34;taller1php&amp;#34;;
+const pass = &amp;#34;iesgn&amp;#34;;
+const db = &amp;#34;taller1php&amp;#34;;
+const charset = &amp;#34;charset=utf8&amp;#34;;
+?&amp;gt;&lt;/code&gt;&lt;/pre&gt;&lt;div class=&#34;opacity-0 transition group-hover/code:opacity-100 flex gap-1 absolute m-[11px] right-0 top-0&#34;&gt;
+    &lt;button
+      class=&#34;code-copy-btn group/copybtn transition-all active:opacity-50 bg-primary-700/5 border border-black/5 text-gray-600 hover:text-gray-900 rounded-md p-1.5 dark:bg-primary-300/10 dark:border-white/10 dark:text-gray-400 dark:hover:text-gray-50&#34;
+      title=&#34;Copy code&#34;
+      data-clipboard-target=&#34;#code-block-1&#34;
+    &gt;
+      &lt;div class=&#34;group-[.copied]/copybtn:hidden copy-icon pointer-events-none h-4 w-4&#34;&gt;&lt;/div&gt;
+      &lt;div class=&#34;hidden group-[.copied]/copybtn:block success-icon pointer-events-none h-4 w-4&#34;&gt;&lt;/div&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;h2&gt;Acceso a la aplicación&lt;span class=&#34;absolute -mt-20&#34; id=&#34;acceso-a-la-aplicación&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#acceso-a-la-aplicaci%c3%b3n&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;
+    &lt;img src=&#34;../images/capturaapp.png&#34; alt=&#34;Captura de acceso a la aplicación, después del login&#34; loading=&#34;lazy&#34; /&gt;&lt;/p&gt;
+&lt;h2&gt;Fichero modificado para límite de memoria&lt;span class=&#34;absolute -mt-20&#34; id=&#34;fichero-modificado-para-límite-de-memoria&#34;&gt;&lt;/span&gt;
+    &lt;a href=&#34;#fichero-modificado-para-l%c3%admite-de-memoria&#34; class=&#34;subheading-anchor&#34; aria-label=&#34;Permalink for this section&#34;&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;&lt;code&gt;/etc/php/8.2/cli/php.ini&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;
+    &lt;img src=&#34;../images/phplimit.png&#34; alt=&#34;Memory limit PHP&#34; loading=&#34;lazy&#34; /&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>
